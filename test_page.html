@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Input Test Page</title>
+</head>
+<body>
+    <h1>File Input Test</h1>
+    <input type="file" id="fileInput" accept="image/*,video/*">
+    <br><br>
+    <img id="imagePreview" src="" alt="Image preview" style="max-width: 300px; display: none;">
+    <video id="videoPreview" controls style="max-width: 500px; display: none;">
+        Your browser does not support the video tag.
+    </video>
+    <a href="" id="link">download</a>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('imagePreview');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else if (file && file.type.startsWith('video/')) {
+                const video = document.getElementById('videoPreview');
+                video.setAttribute("type", file.type);
+                video.src = URL.createObjectURL(file);
+                video.style.display = 'block';
+                document.getElementById("link").href = video.src;
+
+                // Clean up the object URL when it's no longer needed
+                // video.onload = function() {
+                //     URL.revokeObjectURL(video.src);
+                // }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "File Picker Phone Upload",
+  "developer": {
+    "name": "Haggai Nuchi",
+    "url": "https://haggainuchi.com"
+  },
+  "version": "1.0",
+  "description": "Allows uploading a file from a different device via choosing a file named 'Phone Upload'",
+  "permissions": [
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://snapdrop.net/?inputcapture"],
+      "js": ["snapdrop-content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}
